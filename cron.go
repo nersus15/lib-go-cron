@@ -8,10 +8,6 @@ import (
 	"github.com/webcore-go/webcore/port"
 )
 
-// ==========================================
-// LIBRARY IMPLEMENTATION
-// ==========================================
-
 // CronLibrary mengimplementasikan port.Connector
 type CronLibrary struct {
 	scheduler *cron.Cron
@@ -51,25 +47,4 @@ func (c *CronLibrary) AddFunc(spec string, cmd func()) (int, error) {
 		return 0, fmt.Errorf("cron failed to schedule: %w", err)
 	}
 	return int(id), nil
-}
-
-// ==========================================
-// LOADER IMPLEMENTATION
-// ==========================================
-
-type CronLoader struct {
-	name string
-}
-
-func (a *CronLoader) SetName(name string) { a.name = name }
-func (a *CronLoader) Name() string         { return a.name }
-
-func (l *CronLoader) Init(args ...any) (port.Library, error) {
-	// Inisialisasi scheduler di sini
-	cl := &CronLibrary{
-		scheduler: cron.New(),
-	}
-
-	// Framework Webcore akan mengelola pemanggilan Install() dan Connect()
-	return cl, nil
 }
